@@ -1,0 +1,8 @@
+prefect-worker:
+  worker:
+    config:
+      workPool: k8s-pool-01
+    apiConfig: server
+    serverApiConfig:
+      apiUrl: http://prefect-server.prefect-server.svc.cluster.local:4200/api
+      uiUrl: http://prefect-server.prefect-server.svc.cluster.local:4200

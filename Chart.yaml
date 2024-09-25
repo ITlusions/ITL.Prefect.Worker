@@ -1,0 +1,10 @@
+apiVersion: v2
+name: itl-perfect-worker
+description: A Helm chart that depends on the prefect-worker chart
+version: 0.1.0
+appVersion: "1.0"
+
+dependencies:
+  - name: prefect-worker
+    version: "2024.9.20135602" # Match the targetRevision
+    repository: "https://prefecthq.github.io/prefect-helm"
