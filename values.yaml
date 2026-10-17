@@ -1,8 +1,10 @@
 prefect-worker:
   worker:
+    image:
+      prefectTag: 3.8.8-python3.11-kubernetes
     config:
-      workPool: k8s-pool-01
-    apiConfig: server
-    serverApiConfig:
-      apiUrl: http://prefect-server.prefect-server.svc.cluster.local:4200/api
-      uiUrl: http://prefect-server.prefect-server.svc.cluster.local:4200
+      workPool: itl-amalia
+      name: itl-worker-01
+    apiConfig: selfHostedServer
+    selfHostedServerApiConfig:
+      apiUrl: http://prefect-server.prefect-demo.svc.cluster.local:4200/api
