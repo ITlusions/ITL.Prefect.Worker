@@ -1,5 +1,5 @@
 apiVersion: v2
-name: itl-perfect-worker
+name: itl-prefect-worker
 description: A Helm chart that depends on the prefect-worker chart
 version: 0.2.0
 appVersion: "3.8.8"

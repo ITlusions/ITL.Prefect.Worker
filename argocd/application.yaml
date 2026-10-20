@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prefect-worker
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: prefect-worker
+    app.kubernetes.io/part-of: itl-platform
+    app.kubernetes.io/component: workflow
+  annotations:
+    # Deploy after prefect-server (wave 1) is healthy
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/ITlusions/ITL.Prefect.Worker.git
+    # Chart lives at the repo root; charts/ already holds the packaged dependency
+    path: .
+    # Points at main. Sync only after the changes are pushed to main.
+    targetRevision: main
+    helm:
+      releaseName: prefect-worker
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prefect
+
+  # Manual sync on purpose: nothing deploys until someone syncs.
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  revisionHistoryLimit: 10
+
+  info:
+    - name: 'Repository'
+      value: 'https://github.com/ITlusions/ITL.Prefect.Worker'
